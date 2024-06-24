@@ -93,7 +93,7 @@ const FinancialStatements = () => {
 
     useEffect(() => {
         calculateTotals();
-    });
+    }, []);
 
     const calculateTotals = useCallback(() => {
         let totalRevenue2021 = 0;
