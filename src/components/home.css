@@ -1,0 +1,68 @@
+.header-cell {
+    font-weight: bold;
+    background-color: #f5f5f5;
+  }
+  
+  .total-cell {
+    font-weight: bold;
+  }
+  
+  .negative-variance {
+    color: red;
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+  
+  .positive-variance {
+    color: green;
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+  
+  .gray-color {
+    background-color: #f5f5f5;
+  }
+  
+  .white-color {
+    background-color: #ffffff;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end; /* Align items to the end */
+    margin-bottom: 10px; /* Adjust margin as needed */
+  }
+  
+  .button-white-background {
+    background-color: #ffffff; /* White background color */
+    border-color: #f5f5f5;
+  }
+  
+  .button-margin-right {
+    margin-right: 10px;
+  }
+  
+  .horizontal-tabs {
+    list-style-type: none;
+    padding: 0;
+    margin: 20;
+    display: flex; 
+  }
+  
+  .horizontal-tabs > li {
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 5px; 
+    font-size: 14px;
+  }
+  
+  .horizontal-tabs > li:hover {
+    background-color: #f0f0f0; 
+  }
+  
+  .horizontal-tabs .react-tabs__tab--selected {
+    font-weight: bold; 
+    color: red;
+    border-color: red;
+  }
