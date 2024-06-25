@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -90,6 +89,7 @@ const FinancialStatements = () => {
 
     const [rowData, setRowData] = useState(initialRowData);
     const [columnDefs, setColumnDefs] = useState(initialColumnDefs);
+    const [activeTab, setActiveTab] = useState('Profit & Loss');
 
     useEffect(() => {
         calculateTotals();
@@ -166,46 +166,49 @@ const FinancialStatements = () => {
     }, [rowData, calculateTotals]);
 
     const addNewColumn = () => {
-        const newColumnDef = {
-            headerName: 'New Column',
-            field: 'newColumn',
-            width: 150,
-            editable: true,
-            cellClass: 'gray-color',
-        };
+        setColumnDefs(prevDefs => {
+            const newIndex = prevDefs.length;
+            const newColumnDef = {
+                headerName: `New Column ${newIndex}`,
+                field: `newColumn${newIndex}`,
+                width: 150,
+                editable: true,
+                cellClass: newIndex % 2 === 0 ? 'gray-color' : 'white-color',
+            };
 
-        setColumnDefs(prevDefs => [...prevDefs, newColumnDef]);
+            return [...prevDefs, newColumnDef];
+        });
     };
 
     return (
         <div style={{ marginLeft: '20px' }}>
             <h4>Financial statements</h4>
-            <Tabs>
-                <TabList className="horizontal-tabs">
-                    <Tab>Profit & Loss</Tab>
-                    <Tab disabled>Balance Sheet</Tab>
-                    <Tab disabled>Cashflow</Tab>
-                    <Tab disabled>Ratio</Tab>
-                </TabList>
+            <div className="tabs-container">
+                <div className="horizontal-tabs">
+                    <div className={`tab ${activeTab === 'Profit & Loss' ? 'active' : ''}`} onClick={() => setActiveTab('Profit & Loss')}>Profit & Loss</div>
+                    <div className="tab disabled">Balance Sheet</div>
+                    <div className="tab disabled">Cashflow</div>
+                    <div className="tab disabled">Ratio</div>
+                </div>
 
-                <TabPanel>
-                    <div className="ag-theme-alpine" style={{ height: '800px', width: '1000px', display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
-                            <div className="button-container">
-                                <button className="button-margin-right button-white-background" onClick={addNewColumn}>Add Column</button>
-                                <button className="button-margin-right button-white-background">Insert Comment</button>
-                                <button className="button-white-background">Update Columns</button>
-                            </div>
-                            <AgGridReact
-                                columnDefs={columnDefs}
-                                rowData={rowData}
-                                onCellValueChanged={onCellValueChanged}
-                                defaultColDef={{ editable: true, sortable: true, resizable: true }}
-                            />
-                        </div>
+                <div className="horizontal-tabs">
+                    <button className="button-margin-right  tab disabled" onClick={addNewColumn}>Add Column</button>
+                    <button className="button-margin-right tab disabled">Insert Comment</button>
+                    <button className="tab disabled">Update Columns</button>
+                </div>
+            </div>
+            {activeTab === 'Profit & Loss' && (
+                <div className="ag-theme-alpine" style={{ height: '800px', width: '1000px', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
+                        <AgGridReact
+                            columnDefs={columnDefs}
+                            rowData={rowData}
+                            onCellValueChanged={onCellValueChanged}
+                            defaultColDef={{ editable: true, sortable: true, resizable: true }}
+                        />
                     </div>
-                </TabPanel>
-            </Tabs>
+                </div>
+            )}
         </div>
     );
 };
